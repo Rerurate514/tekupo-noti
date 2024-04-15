@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tekupo_noti/controllers/notifyActiveGridController.dart';
+import 'package:tekupo_noti/settings/gridSettings.dart';
 import 'package:tekupo_noti/widgets/weekLabel.dart';
 
 class ScheduleGrid extends StatefulWidget {
@@ -9,12 +11,12 @@ class ScheduleGrid extends StatefulWidget {
 }
 
 class _ScheduleGridState extends State<ScheduleGrid> {
-late List<List<bool>> _noticeList;
+  final NotifyActiveGridController _nagc = NotifyActiveGridController();
 
   @override
   void initState(){
+    _nagc.initGrid();
     super.initState();
-    _noticeList = List.generate(6, (index) => List.filled(7, false));
   }
 
   @override
@@ -23,16 +25,16 @@ late List<List<bool>> _noticeList;
     return Column(
       children: [
         WeekLabel(),
-        for(var scheduleTime in ScheduleTime.values) buildRow(scheduleTime, scheduleTime.index)
+        for(var scheduleTime in ScheduleTime.values) buildRow(scheduleTime)
       ],
     );
   }
 
-  Widget buildRow(ScheduleTime scheduleTime, int col){
+  Widget buildRow(ScheduleTime scheduleTime){
     return Row(
       children: [
         buildScheduleLabel(scheduleTime),
-        for(var i = 0; i < 7; i++) buildNoticeGridBlock(col, i)
+        for(var dayOfWeek in DayOfWeek.values) buildNoticeGridBlock(dayOfWeek, scheduleTime)
       ],
     );
   }
@@ -40,8 +42,8 @@ late List<List<bool>> _noticeList;
   Widget buildScheduleLabel(ScheduleTime scheduleTime){
     final Size size = MediaQuery.of(context).size;
     return SizedBox(
-      width: size.width * 0.124,
-      height: size.height * 0.12,
+      width: size.width * GridSettings.horizontal.factor,
+      height: size.height * GridSettings.vertical.factor,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4)
@@ -72,16 +74,16 @@ late List<List<bool>> _noticeList;
     );
   }
 
-  Widget buildNoticeGridBlock(int col, int row){
+  Widget buildNoticeGridBlock(DayOfWeek dayOfWeek, ScheduleTime scheduleTime){
     final Size size = MediaQuery.of(context).size;
     return SizedBox(
-      width: size.width * 0.124,
-      height: size.height * 0.12,
+      width: size.width * GridSettings.horizontal.factor,
+      height: size.height * GridSettings.vertical.factor,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 3000),
         switchInCurve: Curves.bounceIn,
         switchOutCurve: Curves.bounceOut,
-        child: _noticeList[col][row]
+        child: _nagc.getActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime)
           ? Card(
             color: Colors.tealAccent,
             shape: RoundedRectangleBorder(
@@ -91,7 +93,7 @@ late List<List<bool>> _noticeList;
               radius: 4,
               onTap: () {
                 setState(() {
-                  _noticeList[col][row] = !_noticeList[col][row];
+                  _nagc.toggleActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime);
                 });
               },
               child: Padding(
@@ -109,7 +111,7 @@ late List<List<bool>> _noticeList;
               radius: 4,
               onTap: () {
                 setState(() {
-                  _noticeList[col][row] = !_noticeList[col][row];
+                  _nagc.toggleActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime);
                 });
               },
               child: Padding(
