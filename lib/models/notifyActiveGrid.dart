@@ -1,13 +1,13 @@
-import 'package:tekupo_noti/widgets/scheduleGrid.dart';
+import 'package:tekupo_noti/enums/scheduleTime.dart';
 import 'package:tekupo_noti/widgets/weekLabel.dart';
 
-class NotifyActiveGridManager{
-  NotifyActiveGridManager._();
+class NotifyActiveGrid{
+  NotifyActiveGrid._();
 
-  static NotifyActiveGridManager? _instance;
+  static NotifyActiveGrid? _instance;
 
-  factory NotifyActiveGridManager(){
-    _instance ??= NotifyActiveGridManager._();
+  factory NotifyActiveGrid(){
+    _instance ??= NotifyActiveGrid._();
     return _instance!;
   }
 
