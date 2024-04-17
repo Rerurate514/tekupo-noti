@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tekupo_noti/logic/permissionManager.dart';
 import 'package:tekupo_noti/pages/choiceNoticeSchedule.dart';
 
 void main() {
@@ -31,6 +32,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState(){
+    super.initState();
+    final requester = PermissionManager();
+    requester.requsestNotifyPermission();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
