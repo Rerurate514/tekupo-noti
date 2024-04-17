@@ -2,19 +2,19 @@ import 'package:flutter_test/flutter_test.dart';
 
 class Time{
   final int hour;
-  final int minute;
+  final int minutes;
 
-  Time get before10minTime => _calcHourMin(Time(hour, minute - 10));
-  Time get after5minTime => _calcHourMin(Time(hour, minute + 5));
+  Time get before10minTime => _calcHourMin(Time(hour, minutes - 10));
+  Time get after5minTime => _calcHourMin(Time(hour, minutes + 5));
 
   Time(
     this.hour,
-    this.minute
+    this.minutes
   );
 
   Time _calcHourMin(Time time){
     int calcedHour = time.hour;
-    int calcedMinute = time.minute;
+    int calcedMinute = time.minutes;
 
     if(calcedMinute >= 60){
       calcedMinute = 0;
@@ -35,19 +35,19 @@ void main(){
     Time time11 = Time(10, 30);
     Time time12 = time11.before10minTime;
     Time time13 = time11.after5minTime;
-    expect(time12.minute, 20);
-    expect(time13.minute, 35);
+    expect(time12.minutes, 20);
+    expect(time13.minutes, 35);
 
     Time time21 = Time(10, 0);
     Time time22 = time21.before10minTime;
     Time time23 = time21.after5minTime;
-    expect(time22.minute,  50);
-    expect(time23.minute, 5);
+    expect(time22.minutes,  50);
+    expect(time23.minutes, 5);
 
     Time time31 = Time(10, 55);
     Time time32 = time31.before10minTime;
     Time time33 = time31.after5minTime;
-    expect(time32.minute, 45);
-    expect(time33.minute, 0);
+    expect(time32.minutes, 45);
+    expect(time33.minutes, 0);
   });
 }

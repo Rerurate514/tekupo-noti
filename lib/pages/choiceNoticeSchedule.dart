@@ -19,7 +19,7 @@ class _ChoiceNoticeSchedulePageState extends State<ChoiceNoticeTimePage> {
         children: [
           ScheduleGrid(),
           SizedBox(height: size.height * 0.01),
-          AppInfo()
+          AppInfo(),
         ],
       )
     );

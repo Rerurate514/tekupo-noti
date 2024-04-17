@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class WeekLabel extends StatelessWidget{
-
-  WeekLabel(){}
-
   @override
   Widget build(BuildContext context){
     final Size size = MediaQuery.of(context).size;
