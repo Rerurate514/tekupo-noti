@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tekupo_noti/controllers/notifyActiveGridController.dart';
+import 'package:tekupo_noti/enums/scheduleTime.dart';
+import 'package:tekupo_noti/logic/notify/deleteSchedule.dart';
+import 'package:tekupo_noti/logic/notify/registerSchedule.dart';
+import 'package:tekupo_noti/models/notifyActiveGrid.dart';
+import 'package:tekupo_noti/models/notity.dart';
 import 'package:tekupo_noti/settings/gridSettings.dart';
 import 'package:tekupo_noti/widgets/weekLabel.dart';
 
@@ -11,12 +15,26 @@ class ScheduleGrid extends StatefulWidget {
 }
 
 class _ScheduleGridState extends State<ScheduleGrid> {
-  final NotifyActiveGridController _nagc = NotifyActiveGridController();
+  final NotifyActiveGrid _nagc = NotifyActiveGrid();
+  final ScheduleRegistry _registry = ScheduleRegistry();
+  final ScheduleDeleter _deleter = ScheduleDeleter();
 
   @override
   void initState(){
     _nagc.initGrid();
     super.initState();
+  }
+
+  void _registerScheduleNotify(ScheduleTime scheduleTime, DayOfWeek dayOfWeek) async {
+    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, Before10minNotifier());
+    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier());
+    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, After5minNotifier());
+  }
+
+  void _deleteScheduleNotify(ScheduleTime scheduleTime, DayOfWeek dayOfWeek) async {
+    _deleter.deleteScheduleNotify(scheduleTime, dayOfWeek, Before10minNotifier());
+    _deleter.deleteScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier());
+    _deleter.deleteScheduleNotify(scheduleTime, dayOfWeek, After5minNotifier());
   }
 
   @override
@@ -94,6 +112,7 @@ class _ScheduleGridState extends State<ScheduleGrid> {
               onTap: () {
                 setState(() {
                   _nagc.toggleActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime);
+                  _deleteScheduleNotify(scheduleTime, dayOfWeek);
                 });
               },
               child: Padding(
@@ -112,6 +131,7 @@ class _ScheduleGridState extends State<ScheduleGrid> {
               onTap: () {
                 setState(() {
                   _nagc.toggleActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime);
+                  _registerScheduleNotify(scheduleTime, dayOfWeek);
                 });
               },
               child: Padding(
@@ -122,38 +142,5 @@ class _ScheduleGridState extends State<ScheduleGrid> {
         )
       )
     );
-  }
-}
-
-enum ScheduleTime{
-  ONE,
-  TWO,
-  THREE,
-  FOUR,
-  FIVE,
-  SIX
-}
-
-extension ScheduleTimeEx on ScheduleTime{
-  String get minuteStr{
-    switch(this){
-      case ScheduleTime.ONE: return " 8:50\n    ~ \n10:30";
-      case ScheduleTime.TWO: return "10:40\n    ~ \n12:20";
-      case ScheduleTime.THREE: return "13:10\n    ~ \n14:50";
-      case ScheduleTime.FOUR: return "15:00\n    ~ \n16:40";
-      case ScheduleTime.FIVE: return "16:50\n    ~ \n18:30";
-      case ScheduleTime.SIX: return "18:40\n    ~ \n20:20";
-    }
-  }
-
-  int get num{
-    switch(this){
-      case ScheduleTime.ONE: return 1;
-      case ScheduleTime.TWO: return 2;
-      case ScheduleTime.THREE: return 3;
-      case ScheduleTime.FOUR: return 4;
-      case ScheduleTime.FIVE: return 5;
-      case ScheduleTime.SIX: return 6;
-    }
   }
 }

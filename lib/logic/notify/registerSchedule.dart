@@ -1,36 +1,44 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:tekupo_noti/models/notifyActiveGrid.dart';
+import 'package:tekupo_noti/enums/scheduleTime.dart';
+import 'package:tekupo_noti/models/notity.dart';
+import 'package:tekupo_noti/models/time.dart';
+import 'package:tekupo_noti/widgets/weekLabel.dart';
+import 'package:timezone/timezone.dart' as tz;
 
-class ScheduleRegister{
-  final flnp = FlutterLocalNotificationsPlugin();
+class ScheduleRegistry{
+  final _flnp = FlutterLocalNotificationsPlugin();
 
-  // void scheduledNotificationPerDay({
-  //   required timelist,
-  // }) async {
-  //   var timelist = [
-  //     {'hour': 7, 'minutes': 0},
-  //     {'hour': 19, 'minutes': 0}
-  //   ];
-
-  //   for (int i = 0; i < timelist.length; i++) {
-  //     await flnp.zonedSchedule(
-  //       i + 1000, // id 重複したら上書き
-  //       "薬を飲む時間です!",
-  //       '',
-  //       _convertTime(int.parse(timelist[i]['hour'].toString()),
-  //           int.parse(timelist[i]['minutes'].toString())),
-  //       platformChannelSpecifics,
-  //       androidAllowWhileIdle: true,
-  //       uiLocalNotificationDateInterpretation:
-  //           UILocalNotificationDateInterpretation.absoluteTime,
-  //       matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
-  //       payload: 'payload!',
-  //     );
-  //   }
-  // }
-
-  void registerScheduleNotify(NotifyActiveGrid grid){
-
+  void registerScheduleNotify(ScheduleTime scheduleTime, DayOfWeek dayOfWeek, Notity notify) async {
+    await _flnp.zonedSchedule(
+      "$scheduleTime$dayOfWeek$notify".hashCode, 
+      notify.title, 
+      notify.bodyText, 
+      _convertTime(notify.getNotifyTime(scheduleTime)), 
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          notify.title,
+          notify.bodyText,
+          importance: Importance.high,
+          priority: Priority.high,
+        ),
+      ), 
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
+    );
   }
 
+  tz.TZDateTime _convertTime(Time time) {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduleDate = tz.TZDateTime(
+      tz.local,
+      now.year,
+      now.month,
+      now.day,
+      time.hour,
+      time.minutes,
+    );
+    if (scheduleDate.isBefore(now)) {
+      scheduleDate = scheduleDate.add(const Duration(days: 1));
+    }
+    return scheduleDate;
+  }
 }
