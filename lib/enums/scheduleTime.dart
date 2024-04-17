@@ -9,8 +9,8 @@ enum ScheduleTime{
   SIX
 }
 
-const START_LESSON = "startLesson";
-const END_LESSON = "endLesson";
+const START_LESSON_TIME = "startLessonTime";
+const END_LESSON_TIME = "endLessonTime";
 
 extension ScheduleTimeEx on ScheduleTime{
   String get minuteStr{
@@ -37,12 +37,12 @@ extension ScheduleTimeEx on ScheduleTime{
 
   Map<String, Time> get getTime{
     switch(this){
-      case ScheduleTime.ONE: return { START_LESSON : Time(8, 50), END_LESSON: Time(10, 30) };
-      case ScheduleTime.TWO: return { START_LESSON : Time(10, 40), END_LESSON: Time(12, 20) };
-      case ScheduleTime.THREE: return { START_LESSON : Time(13, 10), END_LESSON: Time(14, 50) };
-      case ScheduleTime.FOUR: return { START_LESSON : Time(15, 0), END_LESSON: Time(16, 40) };
-      case ScheduleTime.FIVE: return { START_LESSON : Time(16, 50), END_LESSON: Time(18, 30) };
-      case ScheduleTime.SIX: return { START_LESSON : Time(18, 40), END_LESSON: Time(20, 20) };
+      case ScheduleTime.ONE: return { START_LESSON_TIME : Time(8, 50), END_LESSON_TIME: Time(10, 30) };
+      case ScheduleTime.TWO: return { START_LESSON_TIME : Time(10, 40), END_LESSON_TIME: Time(12, 20) };
+      case ScheduleTime.THREE: return { START_LESSON_TIME : Time(13, 10), END_LESSON_TIME: Time(14, 50) };
+      case ScheduleTime.FOUR: return { START_LESSON_TIME : Time(15, 0), END_LESSON_TIME: Time(16, 40) };
+      case ScheduleTime.FIVE: return { START_LESSON_TIME : Time(16, 50), END_LESSON_TIME: Time(18, 30) };
+      case ScheduleTime.SIX: return { START_LESSON_TIME : Time(18, 40), END_LESSON_TIME: Time(20, 20) };
     }
   }
 }
