@@ -1,13 +1,13 @@
 import 'package:tekupo_noti/widgets/scheduleGrid.dart';
 import 'package:tekupo_noti/widgets/weekLabel.dart';
 
-class NotifyActiveGridController{
-  NotifyActiveGridController._();
+class NotifyActiveGridManager{
+  NotifyActiveGridManager._();
 
-  static NotifyActiveGridController? _instance;
+  static NotifyActiveGridManager? _instance;
 
-  factory NotifyActiveGridController(){
-    _instance ??= NotifyActiveGridController._();
+  factory NotifyActiveGridManager(){
+    _instance ??= NotifyActiveGridManager._();
     return _instance!;
   }
 
@@ -34,9 +34,6 @@ class NotifyActiveGridController{
 
   bool getActiveGrid({required DayOfWeek dayOfWeek, required ScheduleTime scheduleTime}){
     _checkInitializedObj();
-    print(dayOfWeek);
-    print(scheduleTime);
-    print(_activeNotifyGrid);
     return _activeNotifyGrid["$dayOfWeek$scheduleTime"]!;
   }
 
