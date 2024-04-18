@@ -1,5 +1,5 @@
+import 'package:tekupo_noti/enums/dayOfWeek.dart';
 import 'package:tekupo_noti/enums/scheduleTime.dart';
-import 'package:tekupo_noti/widgets/weekLabel.dart';
 
 class NotifyActiveGrid{
   NotifyActiveGrid._();
