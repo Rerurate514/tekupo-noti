@@ -12,6 +12,10 @@ class NotifyActiveGrid{
   }
 
   Map<String, bool> _activeNotifyGrid = {};
+  Map<String, bool> get activeNotifyGrid {
+    _checkInitializedObj();
+    return _activeNotifyGrid;
+  }
 
   bool _isInit = false;
 
@@ -21,15 +25,19 @@ class NotifyActiveGrid{
     }
   }
 
-  void initGrid() async {
+  void initGrid([Map<String, bool>? grid]) async {
     _isInit = true;
+
+    if(grid != null){
+      _activeNotifyGrid = grid;
+      return;
+    }
 
     for(var scheduleTime in ScheduleTime.values){
       for(var dayOfWeek in DayOfWeek.values){
         _activeNotifyGrid.addAll({"$dayOfWeek$scheduleTime": false});
       }
     }
-    print(_activeNotifyGrid);
   }
 
   bool getActiveGrid({required DayOfWeek dayOfWeek, required ScheduleTime scheduleTime}){
