@@ -3,6 +3,7 @@ import 'package:tekupo_noti/enums/dayOfWeek.dart';
 import 'package:tekupo_noti/enums/scheduleTime.dart';
 import 'package:tekupo_noti/logic/notify/deleteSchedule.dart';
 import 'package:tekupo_noti/logic/notify/registerSchedule.dart';
+import 'package:tekupo_noti/logic/sharedPrefsManager.dart';
 import 'package:tekupo_noti/models/notifyActiveGrid.dart';
 import 'package:tekupo_noti/models/notity.dart';
 import 'package:tekupo_noti/settings/gridSettings.dart';
@@ -19,10 +20,11 @@ class _ScheduleGridState extends State<ScheduleGrid> {
   final NotifyActiveGrid _nagc = NotifyActiveGrid();
   final ScheduleRegistry _registry = ScheduleRegistry();
   final ScheduleDeleter _deleter = ScheduleDeleter();
+  final SharedPrefsManager _prefsManager = SharedPrefsManager();
 
   @override
   void initState(){
-    _nagc.initGrid();
+    _prefsManager.readActiveGridFromPrefs();
     super.initState();
   }
 
@@ -114,6 +116,7 @@ class _ScheduleGridState extends State<ScheduleGrid> {
                 setState(() {
                   _nagc.toggleActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime);
                   _deleteScheduleNotify(scheduleTime, dayOfWeek);
+                  _prefsManager.saveActiveGridToPrefs();
                 });
               },
               child: Padding(
@@ -133,6 +136,7 @@ class _ScheduleGridState extends State<ScheduleGrid> {
                 setState(() {
                   _nagc.toggleActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime);
                   _registerScheduleNotify(scheduleTime, dayOfWeek);
+                  _prefsManager.saveActiveGridToPrefs();
                 });
               },
               child: Padding(
