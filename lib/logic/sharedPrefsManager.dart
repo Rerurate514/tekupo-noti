@@ -3,19 +3,19 @@ import 'package:tekupo_noti/logic/utils/convertJsonAndMap.dart';
 import 'package:tekupo_noti/models/notifyActiveGrid.dart';
 
 class SharedPrefsManager{
-  final _nag = NotifyActiveGrid();
 
-  void saveActiveGridToPrefs() async {
+  void saveActiveGridToPrefs(NotifyActiveGrid nag) async {
     final prefs = await SharedPreferences.getInstance();
-    final grid = _nag.activeNotifyGrid;
+    final grid = nag.activeNotifyGrid;
     final json = grid.convertJsonFromMap();
     prefs.setString("NotifyActiveGrid", json);
   }
 
-  Future<Map<String, bool>> readActiveGridFromPrefs() async {
+  Future<Map<String, bool>> readActiveGridFromPrefs(NotifyActiveGrid nag) async {
     final prefs = await SharedPreferences.getInstance();
     final json = prefs.getString("NotifyActiveGrid");
     final grid = json?.convertMapFromJson();
-    return grid!;
+    nag.initGrid(grid);
+    return grid ?? {};
   }
 }

@@ -17,15 +17,13 @@ class ScheduleGrid extends StatefulWidget {
 }
 
 class _ScheduleGridState extends State<ScheduleGrid> {
-  final NotifyActiveGrid _nagc = NotifyActiveGrid();
+  final NotifyActiveGrid _nag = NotifyActiveGrid();
   final ScheduleRegistry _registry = ScheduleRegistry();
   final ScheduleDeleter _deleter = ScheduleDeleter();
   final SharedPrefsManager _prefsManager = SharedPrefsManager();
 
   @override
   void initState(){
-    _prefsManager.readActiveGridFromPrefs();
-    _nagc.initGrid();
     super.initState();
   }
 
@@ -39,6 +37,11 @@ class _ScheduleGridState extends State<ScheduleGrid> {
     _deleter.deleteScheduleNotify(scheduleTime, dayOfWeek, Before10minNotifier());
     _deleter.deleteScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier());
     _deleter.deleteScheduleNotify(scheduleTime, dayOfWeek, After5minNotifier());
+  }
+
+  Future<Map<String, bool>> readGridFromPrefs() async {
+    final grid = await _prefsManager.readActiveGridFromPrefs(_nag);
+    return grid;
   }
 
   @override
@@ -105,46 +108,51 @@ class _ScheduleGridState extends State<ScheduleGrid> {
         duration: const Duration(milliseconds: 3000),
         switchInCurve: Curves.bounceIn,
         switchOutCurve: Curves.bounceOut,
-        child: _nagc.getActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime)
-          ? Card(
-            color: Colors.tealAccent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4)
-            ),
-            child: InkWell(
-              radius: 4,
-              onTap: () {
-                setState(() {
-                  _nagc.toggleActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime);
-                  _deleteScheduleNotify(scheduleTime, dayOfWeek);
-                  _prefsManager.saveActiveGridToPrefs();
-                });
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: size.height * 0.035, horizontal: size.width * 0.02),
-                child: const Icon(Icons.notifications),
+        child: FutureBuilder<Map<String, bool>>(
+          future: readGridFromPrefs(), 
+          builder: (BuildContext context, AsyncSnapshot<Map<String, bool>> snapshot){
+            return _nag.getActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime)
+              ? Card(
+                color: Colors.tealAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4)
+                ),
+                child: InkWell(
+                  radius: 4,
+                  onTap: () {
+                    setState(() {
+                      _nag.toggleActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime);
+                      _deleteScheduleNotify(scheduleTime, dayOfWeek);
+                      _prefsManager.saveActiveGridToPrefs(_nag);
+                    });
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: size.height * 0.035, horizontal: size.width * 0.02),
+                    child: const Icon(Icons.notifications),
+                  )
+                )
               )
-            )
-          )
-          : Card(
-            color: Colors.redAccent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4)
-            ),
-            child: InkWell(
-              radius: 4,
-              onTap: () {
-                setState(() {
-                  _nagc.toggleActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime);
-                  _registerScheduleNotify(scheduleTime, dayOfWeek);
-                  _prefsManager.saveActiveGridToPrefs();
-                });
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: size.height * 0.035, horizontal: size.width * 0.02),
-                child: const Icon(Icons.notifications_off),
-              )
-            ),
+              : Card(
+                color: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4)
+                ),
+                child: InkWell(
+                  radius: 4,
+                  onTap: () {
+                    setState(() {
+                      _nag.toggleActiveGrid(dayOfWeek: dayOfWeek, scheduleTime: scheduleTime);
+                      _registerScheduleNotify(scheduleTime, dayOfWeek);
+                      _prefsManager.saveActiveGridToPrefs(_nag);
+                    });
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: size.height * 0.035, horizontal: size.width * 0.02),
+                    child: const Icon(Icons.notifications_off),
+                  )
+                ),
+            );
+          }
         )
       )
     );
