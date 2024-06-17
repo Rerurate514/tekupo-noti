@@ -13,15 +13,15 @@ class NotifyActiveGrid{
 
   Map<String, bool> _activeNotifyGrid = {};
   Map<String, bool> get activeNotifyGrid {
-    _checkInitializedObj();
+    _checkInitializedObj("activeotufyGrid");
     return _activeNotifyGrid;
   }
 
   bool _isInit = false;
 
-  void _checkInitializedObj(){
+  void _checkInitializedObj(String method){
     if(!_isInit){
-      throw Exception("Failed to execute NotifyLogic in NotifyActiveGridController. still not init Instance. do [ initGrid ] method.");
+      throw Exception("Failed to execute NotifyLogic in NotifyActiveGridController. still not init Instance. do [ $method ] method.");
     }
   }
 
@@ -41,12 +41,12 @@ class NotifyActiveGrid{
   }
 
   bool getActiveGrid({required DayOfWeek dayOfWeek, required ScheduleTime scheduleTime}){
-    _checkInitializedObj();
+    _checkInitializedObj("getActiveGrid");
     return _activeNotifyGrid["$dayOfWeek$scheduleTime"]!;
   }
 
   void toggleActiveGrid({required DayOfWeek dayOfWeek, required ScheduleTime scheduleTime}){
-    _checkInitializedObj();
+    _checkInitializedObj("toggleActiveGrid");
     _activeNotifyGrid["$dayOfWeek$scheduleTime"] = !_activeNotifyGrid["$dayOfWeek$scheduleTime"]!;
   }
 }

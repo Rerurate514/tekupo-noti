@@ -25,7 +25,7 @@ class StartLessonNotifier extends Notity{
   String get title => "授業が開始しました!";
 
   @override
-  String get bodyText => throw "授業開始時の通知";  
+  String get bodyText => "授業開始時の通知";  
 
   @override
   Time getNotifyTime(ScheduleTime scheduleTime) => scheduleTime.getTime[START_LESSON_TIME]!;
