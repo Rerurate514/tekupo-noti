@@ -25,6 +25,7 @@ class _ScheduleGridState extends State<ScheduleGrid> {
   @override
   void initState(){
     _prefsManager.readActiveGridFromPrefs();
+    _nagc.initGrid();
     super.initState();
   }
 
