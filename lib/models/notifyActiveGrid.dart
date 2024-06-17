@@ -2,13 +2,8 @@ import 'package:tekupo_noti/enums/dayOfWeek.dart';
 import 'package:tekupo_noti/enums/scheduleTime.dart';
 
 class NotifyActiveGrid{
-  NotifyActiveGrid._();
-
-  static NotifyActiveGrid? _instance;
-
-  factory NotifyActiveGrid(){
-    _instance ??= NotifyActiveGrid._();
-    return _instance!;
+  NotifyActiveGrid([Map<String, bool>? grid]){
+    initGrid(grid);
   }
 
   Map<String, bool> _activeNotifyGrid = {};
