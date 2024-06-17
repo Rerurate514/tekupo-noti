@@ -12,10 +12,10 @@ class SharedPrefsManager{
     prefs.setString("NotifyActiveGrid", json);
   }
 
-  void readActiveGridFromPrefs() async {
+  Future<Map<String, bool>> readActiveGridFromPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     final json = prefs.getString("NotifyActiveGrid");
-    final grid = json?.convertJsonFromMap();
-    _nag.initGrid(grid);
+    final grid = json?.convertMapFromJson();
+    return grid!;
   }
 }

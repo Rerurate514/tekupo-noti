@@ -8,9 +8,9 @@ extension ConvertJsonFromMap on Map<String, bool>{
   }
 }
 
-extension ConvertMapFromJson on String{
-  Map<String, bool> convertJsonFromMap(){
-    final map = convert.json.decode(this);
+extension ConvertMapFromJson on String?{
+  Map<String, bool> convertMapFromJson(){
+    final map = convert.json.decode(this ?? "");
 
     Map<String, bool> convertedMap = {};
     map.forEach((key, value) {
