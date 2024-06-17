@@ -1,9 +1,8 @@
-import 'dart:convert';
+import 'dart:convert' as convert;
 
 extension ConvertJsonFromMap on Map<String, bool>{
   String convertJsonFromMap(){
-    const encoder = JsonEncoder();
-    final json = encoder.convert(this);
+    final json = convert.json.encode(this);
 
     return json;
   }
@@ -11,9 +10,15 @@ extension ConvertJsonFromMap on Map<String, bool>{
 
 extension ConvertMapFromJson on String{
   Map<String, bool> convertJsonFromMap(){
-    const decoder = JsonDecoder();
-    final map = decoder.convert(this);
+    final map = convert.json.decode(this);
 
-    return map;
+    Map<String, bool> convertedMap = {};
+    map.forEach((key, value) {
+      if (value is bool) {
+        convertedMap[key] = value;
+      }
+    });
+
+    return convertedMap;
   }
 }
