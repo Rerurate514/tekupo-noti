@@ -17,9 +17,9 @@ class _ChoiceNoticeSchedulePageState extends State<ChoiceNoticeTimePage> {
     return Scaffold(
       body: Column(
         children: [
-          ScheduleGrid(),
+          const ScheduleGrid(),
           SizedBox(height: size.height * 0.01),
-          AppInfo(),
+          const AppInfo(),
         ],
       )
     );
