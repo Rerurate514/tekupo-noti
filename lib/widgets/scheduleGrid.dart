@@ -41,7 +41,6 @@ class ScheduleGridState extends ConsumerState<ScheduleGrid> {
   }
 
   Future readGridFromPrefs() async {
-    print("readw");
     final nagProv = ref.watch(nagProvider);
     final grid = await _prefsManager.readActiveGridFromPrefs(nagProv);
     nagProv.initGrid(grid);
