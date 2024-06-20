@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:tekupo_noti/logic/notify/deleteSchedule.dart';
+import 'package:tekupo_noti/logic/notify/showNotify.dart';
 
 class AppInfo extends StatelessWidget{
   bool _isNoticeBefore10min = true;
@@ -22,6 +24,24 @@ class AppInfo extends StatelessWidget{
             buildCard(context, "開始10分前", _isNoticeBefore10min),
             buildCard(context, "始まった時間", _isNoticeStartSub),
             buildCard(context, "開始5分後", _isNoticeAfter5min),
+          ],
+        ),
+        Column(
+          children: [
+            buildButton(
+              context, 
+              Icons.show_chart, 
+              () async {
+                await FlutterLocalNotificationsPlugin().getScheduled();
+              }
+            ),
+            buildButton(
+              context, 
+              Icons.delete, 
+              () async {
+                ScheduleDeleter().deleteAllScheduleNotify();
+              }
+            )
           ],
         )
       ],
@@ -70,6 +90,32 @@ class AppInfo extends StatelessWidget{
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildButton(BuildContext context, IconData icon, Function() callback){
+    final Size size = MediaQuery.of(context).size;
+    return SizedBox(
+      width: size.width * 0.25,
+      height: size.height * 0.053,
+      child: Card(
+        color: Colors.white,
+        elevation: 1,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(13),
+          onTap: () {
+            callback();
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(width: size.width * 0.01),
+              Icon(icon),
+              SizedBox(width: size.width * 0.02),
+            ],
+          ),
+        )
+      )
     );
   }
 }

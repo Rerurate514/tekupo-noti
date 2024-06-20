@@ -44,6 +44,12 @@ class _ScheduleGridState extends State<ScheduleGrid> {
     return grid;
   }
 
+  void initGrid(){
+    setState(() {
+      _nag.initGrid();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
