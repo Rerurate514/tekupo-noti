@@ -3,13 +3,26 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tekupo_noti/logic/notify/deleteSchedule.dart';
 import 'package:tekupo_noti/logic/notify/showNotify.dart';
 
-class AppInfo extends StatelessWidget{
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tekupo_noti/logic/sharedPrefsManager.dart';
+import 'package:tekupo_noti/providers/gridProvider.dart';
+
+class AppInfo extends ConsumerStatefulWidget {
+  const AppInfo({super.key});
+
+  @override
+  AppinfoState createState() => AppinfoState();
+}
+
+class AppinfoState extends ConsumerState<AppInfo> {
+  final SharedPrefsManager _prefsManager = SharedPrefsManager();
+
   bool _isNoticeBefore10min = true;
   bool _isNoticeStartSub = true;
   bool _isNoticeAfter5min = true;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -39,7 +52,10 @@ class AppInfo extends StatelessWidget{
               context, 
               Icons.delete, 
               () async {
+                final nagProv = ref.watch(nagProvider.notifier);
                 ScheduleDeleter().deleteAllScheduleNotify();
+                nagProv.initGrid();
+                _prefsManager.saveActiveGridToPrefs(nagProv.state);
               }
             )
           ],

@@ -16,6 +16,6 @@ class SharedPrefsManager{
     final json = prefs.getString("NotifyActiveGrid");
     final grid = json?.convertMapFromJson();
     nag.initGrid(grid);
-    return grid ?? {};
+    return grid ?? NotifyActiveGrid.emptyGrid().activeNotifyGrid;
   }
 }

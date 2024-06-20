@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tekupo_noti/logic/notify/notifyService.dart';
 import 'package:tekupo_noti/logic/permissionManager.dart';
 import 'package:tekupo_noti/pages/choiceNoticeSchedule.dart';
@@ -8,13 +9,12 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
   tz.initializeTimeZones();
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
