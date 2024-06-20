@@ -7,7 +7,7 @@ class ScheduleDeleter{
   final _flnp = FlutterLocalNotificationsPlugin();
 
   void deleteScheduleNotify(ScheduleTime scheduleTime, DayOfWeek dayOfWeek, Notity notify) async {
-    await _flnp.cancel("$scheduleTime$dayOfWeek$notify".hashCode);
+    await _flnp.cancel("$scheduleTime$dayOfWeek$notify".hashCode, tag: "$scheduleTime$dayOfWeek$notify");
   }
 
   void deleteAllScheduleNotify() async {

@@ -22,7 +22,8 @@ class ScheduleRegistry{
           priority: Priority.high,
         ),
       ), 
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      payload: "$scheduleTime$dayOfWeek$notify"
     );
   }
 
