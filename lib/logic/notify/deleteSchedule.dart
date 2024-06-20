@@ -9,4 +9,8 @@ class ScheduleDeleter{
   void deleteScheduleNotify(ScheduleTime scheduleTime, DayOfWeek dayOfWeek, Notity notify) async {
     await _flnp.cancel("$scheduleTime$dayOfWeek$notify".hashCode);
   }
+
+  void deleteAllScheduleNotify() async {
+    await _flnp.cancelAll();
+  }
 }
