@@ -9,6 +9,7 @@ class ScheduleRegistry{
   final _flnp = FlutterLocalNotificationsPlugin();
 
   void registerScheduleNotify(ScheduleTime scheduleTime, DayOfWeek dayOfWeek, Notity notify) async {
+    print("${dayOfWeek.jpStr}曜日の${scheduleTime.num}時間目が登録されました。[${scheduleTime.getTime[START_LESSON_TIME]!.hour} ~ ${scheduleTime.getTime[END_LESSON_TIME]!.hour}]");
     await _flnp.zonedSchedule(
       "$scheduleTime$dayOfWeek$notify".hashCode, 
       notify.title, 

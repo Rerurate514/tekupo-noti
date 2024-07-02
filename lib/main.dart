@@ -4,11 +4,13 @@ import 'package:tekupo_noti/logic/notify/notifyService.dart';
 import 'package:tekupo_noti/logic/permissionManager.dart';
 import 'package:tekupo_noti/pages/choiceNoticeSchedule.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
   tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation("Asia/Tokyo")); 
   runApp(const ProviderScope(child: MyApp()));
 }
 
