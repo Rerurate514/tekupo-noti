@@ -10,11 +10,14 @@ class ScheduleRegistry{
 
   void registerScheduleNotify(ScheduleTime scheduleTime, DayOfWeek dayOfWeek, Notity notify) async {
     print("${dayOfWeek.jpStr}曜日の${scheduleTime.num}時間目が登録されました。[${scheduleTime.getTime[START_LESSON_TIME]!.hour} ~ ${scheduleTime.getTime[END_LESSON_TIME]!.hour}]");
+    
+    final tzTime = _convertTime(notify.getNotifyTime(scheduleTime), dayOfWeek);
+    
     await _flnp.zonedSchedule(
       "$scheduleTime$dayOfWeek$notify".hashCode, 
       notify.title, 
       notify.bodyText, 
-      _convertTime(notify.getNotifyTime(scheduleTime)), 
+      tzTime, 
       NotificationDetails(
         android: AndroidNotificationDetails(
           notify.title,
@@ -24,17 +27,18 @@ class ScheduleRegistry{
         ),
       ), 
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-      payload: "$scheduleTime$dayOfWeek$notify"
+      payload: "${scheduleTime.num} of ${dayOfWeek.jpStr} : $notify => ${tzTime}",
+      matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime
     );
   }
 
-  tz.TZDateTime _convertTime(Time time) {
+  tz.TZDateTime _convertTime(Time time, DayOfWeek dayOfWeek) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     tz.TZDateTime scheduleDate = tz.TZDateTime(
       tz.local,
       now.year,
       now.month,
-      now.day,
+      now.day + dayOfWeek.index,
       time.hour,
       time.minutes,
     );
