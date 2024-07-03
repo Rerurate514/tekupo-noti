@@ -38,7 +38,7 @@ class ScheduleRegistry{
       tz.local,
       now.year,
       now.month,
-      now.day + dayOfWeek.index,
+      now.day + _getDiffDate(dayOfWeek),
       time.hour,
       time.minutes,
     );
@@ -46,5 +46,14 @@ class ScheduleRegistry{
       scheduleDate = scheduleDate.add(const Duration(days: 1));
     }
     return scheduleDate;
+  }
+
+  int _getDiffDate(DayOfWeek dayOfWeek){
+    final DateTime now = DateTime.now();
+
+    int dif = dayOfWeek.index - (now.day - 1);
+    if(dif < 0) dif = 7 + dif;
+    
+    return dif;
   }
 }
