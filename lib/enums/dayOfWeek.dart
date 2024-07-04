@@ -3,7 +3,7 @@ enum DayOfWeek{
   MONDAY,
   TUESDAY,
   WEDNESDAY,
-  TURSDAy,
+  TURSDAY,
   FRIDAY,
   SATURDAY
 }
@@ -15,7 +15,7 @@ extension DayOfWeekJpEx on DayOfWeek{
       case DayOfWeek.MONDAY: return "月";
       case DayOfWeek.TUESDAY: return "火";
       case DayOfWeek.WEDNESDAY: return "水";
-      case DayOfWeek.TURSDAy: return "木";
+      case DayOfWeek.TURSDAY: return "木";
       case DayOfWeek.FRIDAY: return "金";
       case DayOfWeek.SATURDAY: return "土";
     }
