@@ -5,6 +5,8 @@ import 'package:tekupo_noti/models/notity.dart';
 import 'package:tekupo_noti/models/time.dart';
 import 'package:timezone/timezone.dart' as tz;
 
+import 'package:flutter_test/flutter_test.dart';
+
 class ScheduleRegistry{
   final _flnp = FlutterLocalNotificationsPlugin();
 
@@ -51,9 +53,16 @@ class ScheduleRegistry{
   int _getDiffDate(DayOfWeek dayOfWeek){
     final DateTime now = DateTime.now();
 
-    int dif = dayOfWeek.index - (now.day - 1);
+    int dif = dayOfWeek.index - (now.day);
     if(dif < 0) dif = 7 + dif;
     
     return dif;
   }
+}
+
+void main(){
+  test("calc-diff", () {
+    int diff = ScheduleRegistry()._getDiffDate(DayOfWeek.TURSDAY);
+    print(diff);
+  });
 }
