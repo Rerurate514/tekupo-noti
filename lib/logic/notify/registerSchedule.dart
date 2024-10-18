@@ -14,7 +14,7 @@ class ScheduleRegistry{
     print("${dayOfWeek.jpStr}曜日の${scheduleTime.num}時間目が登録されました。[${scheduleTime.getTime[START_LESSON_TIME]!.hour} ~ ${scheduleTime.getTime[END_LESSON_TIME]!.hour}]");
     
     final tzTime = _convertTime(notify.getNotifyTime(scheduleTime), dayOfWeek);
-    
+      
     await _flnp.zonedSchedule(
       "$scheduleTime$dayOfWeek$notify".hashCode, 
       notify.title, 
@@ -53,7 +53,7 @@ class ScheduleRegistry{
   int _getDiffDate(DayOfWeek dayOfWeek){
     final DateTime now = DateTime.now();
 
-    int dif = dayOfWeek.index - (now.day);
+    int dif = dayOfWeek.index - (now.day % 7 + 1);
     if(dif < 0) dif = 7 + dif;
     
     return dif;
