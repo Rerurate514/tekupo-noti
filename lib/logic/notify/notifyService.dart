@@ -1,9 +1,32 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
-  final FlutterLocalNotificationsPlugin notificationsPlugin =FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _flnp = FlutterLocalNotificationsPlugin();
+  final AwesomeNotifications _an = AwesomeNotifications();
 
   Future<void> initNotification() async {
+    _initAwesome();
+  }
+
+  Future<void> _initAwesome() async {
+    _an.initialize(
+      'resource://drawable/notification_icon',
+      [
+          NotificationChannel(
+              channelGroupKey: 'Reminder',
+              channelKey: 'reminder',
+              channelName: 'tekupo',
+              channelDescription: 'Notification channel for tekupo',
+              channelShowBadge: true,
+              importance: NotificationImportance.High,
+              enableVibration: true,
+          ),
+      ]
+    );
+  }
+
+  Future<void> _initFlnp() async {
     AndroidInitializationSettings initializationSettingsAndroid =
       const AndroidInitializationSettings('@mipmap/ic_launcher');
 
@@ -18,7 +41,7 @@ class NotificationService {
       android: initializationSettingsAndroid, 
       iOS: initializationSettingsIOS
     );
-    await notificationsPlugin.initialize(
+    await _flnp.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {});
   }

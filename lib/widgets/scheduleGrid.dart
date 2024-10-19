@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tekupo_noti/enums/dayOfWeek.dart';
 import 'package:tekupo_noti/enums/scheduleTime.dart';
 import 'package:tekupo_noti/logic/notify/deleteSchedule.dart';
+import 'package:tekupo_noti/logic/notify/notifyActionBtnsConfig.dart';
 import 'package:tekupo_noti/logic/notify/registerSchedule.dart';
 import 'package:tekupo_noti/logic/sharedPrefsManager.dart';
 import 'package:tekupo_noti/models/notity.dart';
@@ -29,9 +30,9 @@ class ScheduleGridState extends ConsumerState<ScheduleGrid> {
   }
 
   void _registerScheduleNotify(ScheduleTime scheduleTime, DayOfWeek dayOfWeek) async {
-    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, Before10minNotifier());
-    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier());
-    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, After5minNotifier());
+    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, Before10minNotifier(), NotifyActionBtnsConfig(scheduleTime, dayOfWeek));
+    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier(), NotifyActionBtnsConfig(scheduleTime, dayOfWeek));
+    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, After5minNotifier(), NotifyActionBtnsConfig(scheduleTime, dayOfWeek));
   }
 
   void _deleteScheduleNotify(ScheduleTime scheduleTime, DayOfWeek dayOfWeek) async {
