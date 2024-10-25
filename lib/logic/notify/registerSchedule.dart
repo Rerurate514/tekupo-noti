@@ -9,7 +9,8 @@ import 'package:timezone/timezone.dart' as tz;
 
 
 class ScheduleRegistry{
-  final _registry = _AnRegistry();
+  final _anRegistry = _AnRegistry();
+  final _flnpRegistry = _FlnpRegistry();
 
   void registerScheduleNotify(
     ScheduleTime scheduleTime, 
@@ -17,7 +18,8 @@ class ScheduleRegistry{
     Notity notify,
     [NotifyActionBtnsConfig? config]
   ) async {
-    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, notify, config!);
+    //_anRegistry.registerScheduleNotify(scheduleTime, dayOfWeek, notify, config!);
+    _flnpRegistry.registerScheduleNotify(scheduleTime, dayOfWeek, notify);
   }
 }
 

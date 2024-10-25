@@ -6,7 +6,7 @@ class NotificationService {
   final AwesomeNotifications _an = AwesomeNotifications();
 
   Future<void> initNotification() async {
-    _initAwesome();
+    _initFlnp();
   }
 
   Future<void> _initAwesome() async {
