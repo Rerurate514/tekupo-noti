@@ -3,22 +3,22 @@ const String IS_ACTIVE_START = "isActiveStart";
 const String IS_ACTIVE_AFTER = "isActiveAfter";
 
 class SelectedNotify {
-  final bool isActiveBefore;
-  final bool isActiveStart;
-  final bool isActiveAfter;
+  final bool isActiveBefore10min;
+  final bool isActiveStartSub;
+  final bool isActiveAfter5min;
 
   Map<String, bool> get map {
      return {
-      IS_ACTIVE_BEFORE: isActiveBefore,
-      IS_ACTIVE_START: isActiveStart,
-      IS_ACTIVE_AFTER: isActiveAfter
+      IS_ACTIVE_BEFORE: isActiveBefore10min,
+      IS_ACTIVE_START: isActiveStartSub,
+      IS_ACTIVE_AFTER: isActiveAfter5min
     };
   }
 
   const SelectedNotify(
-    this.isActiveBefore,
-    this.isActiveStart,
-    this.isActiveAfter,
+    this.isActiveBefore10min,
+    this.isActiveStartSub,
+    this.isActiveAfter5min,
   );
 
   factory SelectedNotify.getInitializeIns(){
