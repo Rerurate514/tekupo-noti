@@ -6,6 +6,7 @@ import 'package:tekupo_noti/logic/notify/notifyActionBtnsConfig.dart';
 import 'package:tekupo_noti/logic/notify/registerSchedule.dart';
 import 'package:tekupo_noti/logic/sharedPrefsManager.dart';
 import 'package:tekupo_noti/models/notity.dart';
+import 'package:tekupo_noti/models/selectedNotify.dart';
 import 'package:tekupo_noti/providers/gridProvider.dart';
 import 'package:tekupo_noti/settings/gridSettings.dart';
 import 'package:tekupo_noti/widgets/weekLabel.dart';
@@ -30,9 +31,16 @@ class ScheduleGridState extends ConsumerState<ScheduleGrid> {
   }
 
   void _registerScheduleNotify(ScheduleTime scheduleTime, DayOfWeek dayOfWeek) async {
-    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, Before10minNotifier(), NotifyActionBtnsConfig(scheduleTime, dayOfWeek));
-    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier(), NotifyActionBtnsConfig(scheduleTime, dayOfWeek));
-    _registry.registerScheduleNotify(scheduleTime, dayOfWeek, After5minNotifier(), NotifyActionBtnsConfig(scheduleTime, dayOfWeek));
+    SelectedNotify selectedNotify = await _prefsManager.readSeletedTimeNotifyFromPrefs();
+    if(selectedNotify.isActiveBefore10min){
+      _prefsManager.readSeletedTimeNotifyFromPrefs();
+    }
+    if(selectedNotify.isActiveStartSub){
+      _registry.registerScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier(), NotifyActionBtnsConfig(scheduleTime, dayOfWeek));
+    }
+    if(selectedNotify.isActiveAfter5min){
+      _registry.registerScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier(), NotifyActionBtnsConfig(scheduleTime, dayOfWeek));
+    }
   }
 
   void _deleteScheduleNotify(ScheduleTime scheduleTime, DayOfWeek dayOfWeek) async {
