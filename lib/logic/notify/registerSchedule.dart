@@ -1,24 +1,19 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tekupo_noti/enums/dayOfWeek.dart';
 import 'package:tekupo_noti/enums/scheduleTime.dart';
-import 'package:tekupo_noti/logic/notify/notifyActionBtnsConfig.dart';
 import 'package:tekupo_noti/models/notity.dart';
 import 'package:tekupo_noti/models/time.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 
 class ScheduleRegistry{
-  final _anRegistry = _AnRegistry();
   final _flnpRegistry = _FlnpRegistry();
 
   void registerScheduleNotify(
     ScheduleTime scheduleTime, 
     DayOfWeek dayOfWeek,
-    Notity notify,
-    [NotifyActionBtnsConfig? config]
+    Notity notify
   ) async {
-    //_anRegistry.registerScheduleNotify(scheduleTime, dayOfWeek, notify, config!);
     _flnpRegistry.registerScheduleNotify(scheduleTime, dayOfWeek, notify);
   }
 }
@@ -77,35 +72,3 @@ class _FlnpRegistry{
   }
 }
 
-class _AnRegistry{
-  final _an = AwesomeNotifications();
-  final _tzConverter = TZDateConverter();
-
-  void registerScheduleNotify(
-    ScheduleTime scheduleTime, 
-    DayOfWeek dayOfWeek,
-    Notity notify,
-    NotifyActionBtnsConfig config
-  ) async {
-    print("${dayOfWeek.jpStr}曜日の${scheduleTime.num}時間目が登録されました。[${scheduleTime.getTime[START_LESSON_TIME]!.hour} ~ ${scheduleTime.getTime[END_LESSON_TIME]!.hour}]");
-    final tzTime = _tzConverter.convertTime(notify.getNotifyTime(scheduleTime), dayOfWeek);
-
-    _an.createNotification(
-      content: NotificationContent(
-        id: "$scheduleTime$dayOfWeek$notify".hashCode, 
-        channelKey: "reminder",
-        title: notify.title, 
-        body: notify.bodyText, 
-      ),
-      actionButtons: config.buildBtns(),
-      schedule: NotificationCalendar(
-        weekday: dayOfWeek.index,
-        hour: tzTime.hour,
-        minute: tzTime.minute,
-        timeZone: "Japan/Tokyo",
-        repeats: true,
-        allowWhileIdle: true
-      )
-    );
-  }
-}

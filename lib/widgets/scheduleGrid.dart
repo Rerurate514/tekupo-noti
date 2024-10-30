@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tekupo_noti/enums/dayOfWeek.dart';
 import 'package:tekupo_noti/enums/scheduleTime.dart';
 import 'package:tekupo_noti/logic/notify/deleteSchedule.dart';
-import 'package:tekupo_noti/logic/notify/notifyActionBtnsConfig.dart';
 import 'package:tekupo_noti/logic/notify/registerSchedule.dart';
 import 'package:tekupo_noti/logic/sharedPrefsManager.dart';
 import 'package:tekupo_noti/models/notity.dart';
@@ -36,10 +35,10 @@ class ScheduleGridState extends ConsumerState<ScheduleGrid> {
       _prefsManager.readSeletedTimeNotifyFromPrefs();
     }
     if(selectedNotify.isActiveStartSub){
-      _registry.registerScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier(), NotifyActionBtnsConfig(scheduleTime, dayOfWeek));
+      _registry.registerScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier());
     }
     if(selectedNotify.isActiveAfter5min){
-      _registry.registerScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier(), NotifyActionBtnsConfig(scheduleTime, dayOfWeek));
+      _registry.registerScheduleNotify(scheduleTime, dayOfWeek, StartLessonNotifier());
     }
   }
 
